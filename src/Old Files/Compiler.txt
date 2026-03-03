@@ -1,0 +1,271 @@
+﻿@language Zevvi;
+
+import Default;
+import CompileTime; // we need this to "addto class Type"
+import Collections;
+
+const int TREE_STACK_SIZE = 256;
+const int SYMBOL_TABLE_SIZE = 256;
+const int SCOPE_SIZE = 256;
+
+global void Initialize()
+{
+    string source;
+    Token[] tokens;
+
+    ParseTree[] subtrees = new ParseTree[TREE_STACK_SIZE];
+    int numSubtrees = 0;
+
+    SymbolTable symbolTable = new SymbolTable();
+
+    void InitSymbolTable()
+    {
+        ... // TODO
+    }
+
+    void PushTree(ParseTree tree)
+    {
+        subtrees[numSubtrees] = tree;
+        numSubtrees++;
+    }
+
+    ParseTree PopTree()
+    {
+        numSubtrees--;
+        return subtrees[numSubtrees];
+    }
+
+    ParseTree PeekTree(int i = 1)
+    {
+        return subtrees[numSubtrees - i];
+    }
+
+    ParseTree Compile()
+    {
+        InitSymbolTable();
+        
+        for (int i = 0; i < tokens.length; i++)
+        {
+            Token token = tokens[i];
+            PushTree(token.ToParseTree(this));
+            Transition();
+        }
+
+        return subtrees[0];
+    }
+
+    void Transition()
+    {
+        ParseTree top = PeekTree();
+        top.state = top.exprType.Transition(PeekTree(2).state);
+    }
+
+    void Merge(int numToPop)
+    {
+        ParseTree[] poppedSubtrees = new ParseTree[numToPop];
+        State oldState = PeekTree().state;
+
+        for (int i = numToPop - 1; i >= 0; i--)
+        {
+            poppedSubtrees[i] = PopTree();
+        }
+
+        ParseTree newSubtree = oldState.Merge(poppedSubtrees);
+        PushTree(newSubtree);
+        Transition();
+    }
+}
+
+addto class Type
+{
+    State Transition(State oldState); // function field, not method
+
+    static void NormalTransition(Type type, State[] transitions)
+    {
+        ParseTree temp = PopTree();
+
+        while true
+        {
+            State oldState = PeekTree().state;
+            State newState = transitions[(int)oldState];
+
+            if (newState != State.ERROR)
+            {
+                temp.state = newState;
+                PushTree(temp);
+            }
+            else if (oldState.canMerge)
+            {
+                Merge(oldState.numToPop);
+            }
+            else
+            {
+                throw new CompilerError(
+                    $"Syntax error: type {type} is\
+                    not allowed at state {oldState}.");
+            }
+        }
+    }
+
+    static void LeftPrecTransition(
+        Func<Type -> void> InnerTransition,
+        Type type, int leftPrec)
+    {
+        ParseTree temp = PopTree();
+
+        while true
+        {
+            for (int i = numSubtrees - 1; i >= 0; i--)
+            {
+                ParseTree subtree = subtrees[i];
+
+                if (subtree is RightPrecTree)
+                {
+                    int rightPrec = subtree.rightPrec;
+                    State oldState = subtree.state;
+
+                    if (leftPrec == rightPrec)
+                    {
+                        throw new CompilerError(
+                            $"Expressions have equal precedences \
+                            ({leftPrec}); parentheses required.");
+                    }
+                    else if (leftPrec > rightPrec || !oldState.canMerge)
+                    {
+                        PushTree(temp);
+                        InnerTransition(type);
+                    }
+                    else
+                    {
+                        Merge(oldState.numToPop);
+                        break; // break 'for', cont 'while'
+                    }
+                }
+            }
+        }
+    }
+
+    static void RightPrecTransition(
+        Func<Type -> void> InnerTransition,
+        Type type, int rightPrec)
+    {
+        InnerTransition(type);
+        PushTree(PopTree().AttachRightPrec(rightPrec));
+    }
+
+    static void BothPrecTransition(
+        Func<Type -> void> innerTransition,
+        int leftPrec, int rightPrec)
+    {
+        RightPrecTransition(State state ->
+            LeftPrecTransition(innerTransition, leftPrec),
+            rightPrec);
+    }
+}
+
+dataclass Token
+{
+    const int EOF = 0;
+    const int INT = 1;
+    const int CHAR = 2;
+    const int STR = 3;
+    const int ID = 4;
+
+    int tokenType;
+    string lexeme;
+
+    ParseTree ToParseTree()
+    {
+        return LoadTokenFuncs[tokenType](lexeme);
+    }
+
+    static Func<string -> ParseTree>[] LoadTokenFuncs = new[]
+    {
+        EOF => string lexeme -> ...,
+        INT => string lexeme -> ...,
+        CHAR => string lexeme -> ...,
+        STR => string lexeme -> ...,
+        ID => string lexeme -> ...
+    }
+}
+
+enum State
+{
+    ...
+
+    int numToPop;
+    bool canMerge;
+
+    ParseTree Merge(ParseTree[] subtrees);
+}
+
+dataclass ParseTree
+{
+    ParseTree[] subtrees;
+    Type exprType;
+    Code exprCode;
+    State state;
+
+    RightPrecTree AttachRightPrec(int rightPrec)
+    {
+        return new RightPrecTree(subtrees, exprType, exprCode, state, rightPrec);
+    }
+}
+
+dataclass RightPrecTree : ParseTree
+{
+    int rightPrec;
+}
+
+class SymbolTable
+{
+    Scope[] entries = new Scope[SYMBOL_TABLE_SIZE];
+    int numScopes = 1;
+
+    void PushScope()
+    {
+        entries[numScopes] = new Scope();
+        numScopes++;
+    }
+
+    Scope PeekScope(int i = 1)
+    {
+        return entries[numScopes - i];
+    }
+
+    Scope PopScope()
+    {
+        numScopes--;
+        return entries[numScopes];
+    }
+
+    Type Get(string identifier)
+    {
+        for (int i = numScopes - 1; i >= 0; i--)
+        {
+            Scope scope = PeekScope();
+            Type type = scope.Get(identifier);
+            
+            if (type != null)
+            {
+                return type;
+            }
+        }
+
+        return null;
+    }
+
+    void Add(string identifier, Type type)
+    {
+        Scope scope = PeekScope();
+        scope.Add(identifier, type);
+    }
+
+    void Remove(string identifier)
+    {
+        Scope scope = PeekScope();
+        scope.Remove(identifier);
+    }
+}
+
+Class Scope = Collections.Map<string, Type>;

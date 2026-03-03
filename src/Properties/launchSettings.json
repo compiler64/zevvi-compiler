@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ZevviCompiler": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Users\\Max\\Documents\\ZevviLang\\test.zv -d -debug"
+    }
+  }
+}

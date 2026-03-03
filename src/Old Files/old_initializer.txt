@@ -1,0 +1,219 @@
+public static Initializer testInitializer = (Manager m) =>
+        {
+            m.PushStorage();
+
+            const int TYPE = 0;
+            const int CLASS = 6;
+            const int STRING = 12;
+            const int STRING_TYPE = 15;
+            const int STRING_CLASS = 20;
+            const int STRING_STRING = 26;
+            const int TYPE_FIELDS = 33;
+            const int TYPE_FIELD_TYPES = 37;
+            const int TYPE_INTERFACES = 41;
+            const int CLASS_FIELDS = 43;
+            const int CLASS_FIELD_TYPES = 49;
+            const int CLASS_INTERFACES = 55;
+            const int STRING_NAME = 57;
+            const int STRING_TYPE_NUMBER = 62;
+            const int STRING_FIELDS = 73;
+            const int STRING_FIELD_TYPES = 80;
+            const int STRING_INTERFACES = 91;
+            const int OBJECT = 102;
+            const int INT = 108;
+            const int ARRAY = 111;
+            const int OBJECT_FIELDS = 114;
+            const int OBJECT_FIELD_TYPES = 116;
+            const int OBJECT_INTERFACES = 118;
+            const int STRING_OBJECT = 119;
+            const int STRING_INT = 126;
+            const int STRING_ARRAY = 130;
+            
+            m.Store(TYPE, CLASS); // 0
+            m.Store(TYPE + 1, STRING_TYPE);
+            m.Store(TYPE + 2, 0);
+            m.Store(TYPE + 3, TYPE_FIELDS);
+            m.Store(TYPE + 4, TYPE_FIELD_TYPES);
+            m.Store(TYPE + 5, TYPE_INTERFACES);
+
+            m.Store(CLASS, CLASS); // 6
+            m.Store(CLASS + 1, STRING_CLASS);
+            m.Store(CLASS + 2, 1);
+            m.Store(CLASS + 3, CLASS_FIELDS);
+            m.Store(CLASS + 4, CLASS_FIELD_TYPES);
+            m.Store(CLASS + 5, CLASS_INTERFACES);
+
+            m.Store(STRING, TYPE); // 12
+            m.Store(STRING + 1, STRING_STRING);
+            m.Store(STRING + 2, 2);
+
+            m.Store(STRING_TYPE, 4); // 15
+            m.Store(STRING_TYPE + 1, 't');
+            m.Store(STRING_TYPE + 2, 'y');
+            m.Store(STRING_TYPE + 3, 'p');
+            m.Store(STRING_TYPE + 4, 'e');
+
+            m.Store(STRING_CLASS, 5); // 20
+            m.Store(STRING_CLASS + 1, 'c');
+            m.Store(STRING_CLASS + 2, 'l');
+            m.Store(STRING_CLASS + 3, 'a');
+            m.Store(STRING_CLASS + 4, 's');
+            m.Store(STRING_CLASS + 5, 's');
+
+            m.Store(STRING_STRING, 6); // 26
+            m.Store(STRING_STRING + 1, 's');
+            m.Store(STRING_STRING + 2, 't');
+            m.Store(STRING_STRING + 3, 'r');
+            m.Store(STRING_STRING + 4, 'i');
+            m.Store(STRING_STRING + 5, 'n');
+            m.Store(STRING_STRING + 6, 'g');
+
+            m.Store(TYPE_FIELDS, 3); // 33
+            m.Store(TYPE_FIELDS + 1, STRING_TYPE);
+            m.Store(TYPE_FIELDS + 2, STRING_NAME);
+            m.Store(TYPE_FIELDS + 3, STRING_TYPE_NUMBER);
+
+            m.Store(TYPE_FIELD_TYPES, 3); // 37
+            m.Store(TYPE_FIELD_TYPES + 1, TYPE);
+            m.Store(TYPE_FIELD_TYPES + 2, STRING);
+            m.Store(TYPE_FIELD_TYPES + 3, INT);
+
+            m.Store(TYPE_INTERFACES, 1); // 41
+            m.Store(TYPE_INTERFACES + 1, OBJECT);
+
+            m.Store(CLASS_FIELDS, 6); // 43
+            m.Store(CLASS_FIELDS + 1, STRING_TYPE);
+            m.Store(CLASS_FIELDS + 2, STRING_NAME);
+            m.Store(CLASS_FIELDS + 3, STRING_TYPE_NUMBER);
+            m.Store(CLASS_FIELDS + 4, STRING_FIELDS);
+            m.Store(CLASS_FIELDS + 5, STRING_FIELD_TYPES);
+            m.Store(CLASS_FIELDS + 6, STRING_INTERFACES);
+
+            m.Store(CLASS_FIELD_TYPES, 6); // 49
+            m.Store(CLASS_FIELD_TYPES + 1, TYPE);
+            m.Store(CLASS_FIELD_TYPES + 2, STRING);
+            m.Store(CLASS_FIELD_TYPES + 3, INT);
+            m.Store(CLASS_FIELD_TYPES + 4, ARRAY);
+            m.Store(CLASS_FIELD_TYPES + 5, ARRAY);
+            m.Store(CLASS_FIELD_TYPES + 6, ARRAY);
+
+            m.Store(CLASS_INTERFACES, 1); // 55
+            m.Store(CLASS_INTERFACES + 1, TYPE);
+
+            m.Store(STRING_NAME, 4); // 57
+            m.Store(STRING_NAME + 1, 'n');
+            m.Store(STRING_NAME + 2, 'a');
+            m.Store(STRING_NAME + 3, 'm');
+            m.Store(STRING_NAME + 4, 'e');
+
+            m.Store(STRING_TYPE_NUMBER, 10); // 62
+            m.Store(STRING_TYPE_NUMBER + 1, 't');
+            m.Store(STRING_TYPE_NUMBER + 2, 'y');
+            m.Store(STRING_TYPE_NUMBER + 3, 'p');
+            m.Store(STRING_TYPE_NUMBER + 4, 'e');
+            m.Store(STRING_TYPE_NUMBER + 5, 'N');
+            m.Store(STRING_TYPE_NUMBER + 6, 'u');
+            m.Store(STRING_TYPE_NUMBER + 7, 'm');
+            m.Store(STRING_TYPE_NUMBER + 8, 'b');
+            m.Store(STRING_TYPE_NUMBER + 9, 'e');
+            m.Store(STRING_TYPE_NUMBER + 10, 'r');
+
+            m.Store(STRING_FIELDS, 6); // 73
+            m.Store(STRING_FIELDS + 1, 'f');
+            m.Store(STRING_FIELDS + 2, 'i');
+            m.Store(STRING_FIELDS + 3, 'e');
+            m.Store(STRING_FIELDS + 4, 'l');
+            m.Store(STRING_FIELDS + 5, 'd');
+            m.Store(STRING_FIELDS + 6, 's');
+
+            m.Store(STRING_FIELD_TYPES, 10); // 80
+            m.Store(STRING_FIELD_TYPES + 1, 'f');
+            m.Store(STRING_FIELD_TYPES + 2, 'i');
+            m.Store(STRING_FIELD_TYPES + 3, 'e');
+            m.Store(STRING_FIELD_TYPES + 4, 'l');
+            m.Store(STRING_FIELD_TYPES + 5, 'd');
+            m.Store(STRING_FIELD_TYPES + 6, 'T');
+            m.Store(STRING_FIELD_TYPES + 7, 'y');
+            m.Store(STRING_FIELD_TYPES + 8, 'p');
+            m.Store(STRING_FIELD_TYPES + 9, 'e');
+            m.Store(STRING_FIELD_TYPES + 10, 's');
+
+            m.Store(STRING_INTERFACES, 10); // 91
+            m.Store(STRING_INTERFACES + 1, 'i');
+            m.Store(STRING_INTERFACES + 2, 'n');
+            m.Store(STRING_INTERFACES + 3, 't');
+            m.Store(STRING_INTERFACES + 4, 'e');
+            m.Store(STRING_INTERFACES + 5, 'r');
+            m.Store(STRING_INTERFACES + 6, 'f');
+            m.Store(STRING_INTERFACES + 7, 'a');
+            m.Store(STRING_INTERFACES + 8, 'c');
+            m.Store(STRING_INTERFACES + 9, 'e');
+            m.Store(STRING_INTERFACES + 10, 's');
+
+            m.Store(OBJECT, CLASS); // 102
+            m.Store(OBJECT + 1, STRING_OBJECT);
+            m.Store(OBJECT + 2, 3);
+            m.Store(OBJECT + 3, OBJECT_FIELDS);
+            m.Store(OBJECT + 4, OBJECT_FIELD_TYPES);
+            m.Store(OBJECT + 5, OBJECT_INTERFACES);
+
+            m.Store(INT, TYPE); // 108
+            m.Store(INT + 1, STRING_INT);
+            m.Store(INT + 2, 4);
+
+            m.Store(ARRAY, TYPE); // 111
+            m.Store(ARRAY + 1, STRING_ARRAY);
+            m.Store(ARRAY + 2, 5);
+
+            m.Store(OBJECT_FIELDS, 1); // 114
+            m.Store(OBJECT_FIELDS + 1, STRING_TYPE);
+
+            m.Store(OBJECT_FIELD_TYPES, 1); // 116
+            m.Store(OBJECT_FIELD_TYPES + 1, TYPE);
+
+            m.Store(OBJECT_INTERFACES, 0); // 118
+
+            m.Store(STRING_OBJECT, 6); // 119
+            m.Store(STRING_OBJECT + 1, 'o');
+            m.Store(STRING_OBJECT + 2, 'b');
+            m.Store(STRING_OBJECT + 3, 'j');
+            m.Store(STRING_OBJECT + 4, 'e');
+            m.Store(STRING_OBJECT + 5, 'c');
+            m.Store(STRING_OBJECT + 6, 't');
+
+            m.Store(STRING_INT, 3); // 126
+            m.Store(STRING_INT + 1, 'i');
+            m.Store(STRING_INT + 2, 'n');
+            m.Store(STRING_INT + 3, 't');
+
+            m.Store(STRING_ARRAY, 5); // 130
+            m.Store(STRING_ARRAY + 1, 'a');
+            m.Store(STRING_ARRAY + 2, 'r');
+            m.Store(STRING_ARRAY + 3, 'r');
+            m.Store(STRING_ARRAY + 4, 'a');
+            m.Store(STRING_ARRAY + 5, 'y');
+
+            m.ClassTypeRef = new ClassRef(m, CLASS);
+            m.TypeTypeRef = new ClassRef(m, TYPE);
+            m.ObjectTypeRef = new ClassRef(m, OBJECT);
+            m.IntTypeRef = new TypeRef(m, INT);
+            m.StringTypeRef = new TypeRef(m, STRING);
+            m.ArrayTypeRef = new TypeRef(m, ARRAY);
+
+            // TODO finish initializer
+
+            //loc = m.ObjectStorage.Size;
+            //m.ObjectStorage.Expand(TypeFields.TypeSize);
+            //m.TypeTypeRef = new ClassRef(m, loc, false);
+            //m.Store(loc, m.TypeTypeRef);  // stores loc at itself!
+
+            //loc = m.ObjectStorage.Size;
+            //m.ObjectStorage.Expand(TypeFields.TypeSize);
+            //m.StringTypeRef = new ClassRef(m, loc, false);
+            //m.Store(loc, m.TypeTypeRef);
+
+            //loc = m.ObjectStorage.Size;
+            //m.ObjectStorage.Expand(TypeFields.TypeSize);
+            //m.ArrayTypeRef = new ClassRef(m, loc, false);
+            //m.Store(loc, m.TypeTypeRef);
+        };

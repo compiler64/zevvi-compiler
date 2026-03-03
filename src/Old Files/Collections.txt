@@ -1,0 +1,12 @@
+﻿
+abstract class Collection<T>
+{
+    Type T; // type parameter
+    int size;
+}
+
+class LinkedList<T> : Collection<T>
+{
+    LinkedListNode<T> first;
+    LinkedListNode<T> last;
+}

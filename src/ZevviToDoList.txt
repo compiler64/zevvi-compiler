@@ -1,0 +1,24 @@
+﻿
+TO DO SOMETIME:
+- add constant types and constant variables
+- add exponents
+- maybe add object oriented programming?
+- add Math and Random modules
+- make lexical analyzer editable at compile-time
+- maybe write Zevvi compiler in Zevvi?
+- add CompilerTools module
+
+TO DO NOW:
+- fix bug: Test.a[0] should parse like (Test.a)[0], not Test.(a[0]); same with parentheses.
+- finish adding structure types
+- maybe change default syntax to be more readable?
+  - for example:
+  def f(int x)              // use 'def' instead of 'void'
+    if x < 100 then         // no curly braces! use 'then', 'do', and/or 'end' for blocks
+      print x;              // but still use semicolons
+    else if x < 200 then
+      print x - 100;
+    else
+      print x - 200;
+    end
+  end
